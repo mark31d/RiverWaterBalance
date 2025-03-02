@@ -118,9 +118,7 @@ export default function Menu({ navigation }) {
                 clipPath="url(#dropClip)"
                 clipRule="evenodd"
               />
-            </Svg>
-
-            <View style={styles.dropTextWrapper}>
+            </Svg><View style={styles.dropTextWrapper}>
               <Text style={styles.dropMainNumber}>{dailyIntake}</Text>
               <Text style={styles.dropSubNumber}>/{recommendedIntake} ml</Text>
             </View>

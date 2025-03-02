@@ -9,6 +9,7 @@ import {
   Alert,
   Linking,
   Share,
+  SafeAreaView
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
@@ -88,7 +89,7 @@ export default function MapScreen() {
       longitudeDelta: prev.longitudeDelta / 0.8,
     }));
   };  return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Map</Text>
       </View>
@@ -148,7 +149,7 @@ export default function MapScreen() {
           <Image source={selectedSpring.image} style={styles.bottomImage} />
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 }const styles = StyleSheet.create({
   container: {
@@ -162,7 +163,7 @@ export default function MapScreen() {
     elevation: 3,
   },
   headerText: {
-    marginTop: 10,
+    marginTop: -25,
     fontSize: 25,
     fontWeight: 'bold',
   },

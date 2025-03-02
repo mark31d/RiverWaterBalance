@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 const { width } = Dimensions.get('window');
 
 // Цвет фона родительского контейнера (под «пилюлей»)
-const CONTAINER_BG = '#F9F9F9';
+const CONTAINER_BG = '#B09157';
 // Цвет самой «пилюли»
 const PILL_BG = '#B09157';
 // Цвет иконки, когда таб НЕ активен
@@ -92,6 +92,8 @@ export default function CustomTabBar({ state, descriptors, navigation }) {
     backgroundColor: CONTAINER_BG,
     alignItems: 'center',
     paddingVertical: 5,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
   },
   // «Пилюля» со скруглёнными углами
   tabBarInner: {
