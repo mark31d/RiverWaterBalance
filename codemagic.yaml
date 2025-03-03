@@ -13,7 +13,7 @@ workflows:
         BUNDLE_ID: com.RiverWaterBalance
         XCODE_WORKSPACE: RiverWaterBalance.xcworkspace
         XCODE_SCHEME: RiverWaterBalance
-        APP_STORE_APPLE_ID: 6742408984
+        APP_STORE_APPLE_ID: 6742711454
     scripts:
       - name: Install npm dependencies
         script: |
