@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ImageBackground,
 } from 'react-native';
 import { ProfileContext } from '../Components/ProfileContext';
 
@@ -18,7 +19,7 @@ export default function PersonalInfoStep4Goal({ navigation }) {
     if (!isNaN(val) && val > 0) {
       // Обновляем цель в контексте
       updateProfile({ recommended: val });
-      // Переходим на вкладку с экраном воды без передачи параметров
+      // Переходим на вкладку с экраном воды
       navigation.navigate('Tabs', {
         screen: 'WaterTab',
       });
@@ -28,48 +29,67 @@ export default function PersonalInfoStep4Goal({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../assets/arrow.png')}
-            style={styles.headerIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Personal Info</Text>
-        <TouchableOpacity onPress={onSave}>
-          <Image
-            source={require('../assets/accept.png')}
-            style={styles.headerIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.centerContent}>
-        <Text style={styles.question}>
-          How much water do you want to drink per day?
-        </Text>
-        <View style={styles.inputWrapper}>
-          <TextInput
-            style={styles.goalInput}
-            keyboardType="numeric"
-            placeholder="Enter a number"
-            placeholderTextColor="#BBB"
-            value={goal}
-            onChangeText={setGoal}
-          />
+    <ImageBackground
+      source={require('../assets/bg.png')} // <-- Ваш фон (png)
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={require('../assets/arrow.png')}
+              style={styles.headerIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+
+          <Text style={styles.headerTitle}>Personal Info</Text>
+
+          <TouchableOpacity onPress={onSave}>
+            <Image
+              source={require('../assets/accept.png')}
+              style={styles.headerIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
-        <Text style={styles.unitLabel}>(ml)</Text>
+
+        <View style={styles.centerContent}>
+          <Text style={styles.question}>
+            How much water do you want to drink per day?
+          </Text>
+
+          <View style={styles.inputWrapper}>
+            <TextInput
+              style={styles.goalInput}
+              keyboardType="numeric"
+              placeholder="Enter a number"
+              placeholderTextColor="#BBB"
+              value={goal}
+              onChangeText={setGoal}
+            />
+          </View>
+
+          <Text style={styles.unitLabel}>(ml)</Text>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 }
+
 const styles = StyleSheet.create({
-  /* Основной контейнер экрана */
+  // Фон на весь экран
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
+  /* Основной контейнер */
   container: {
     flex: 1,
-    backgroundColor: '#F10F1F1',
+    // Убираем заливку, чтобы видеть bg.png
+    // backgroundColor: '#F10F1F1',
     paddingTop: 50,
     paddingHorizontal: 20,
   },
@@ -111,12 +131,13 @@ const styles = StyleSheet.create({
     height: 140,
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    // тень (iOS + Android)
+    // Тень (iOS + Android)
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 2,
+
     marginBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',

@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  ImageBackground,
   ScrollView,
   Dimensions,
   Modal,
@@ -43,7 +44,10 @@ const Settings = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.container}
+    >
       <View style={styles.headerRow}>
         <TouchableOpacity style={styles.headerIconWrapper} onPress={() => navigation.goBack()}>
           <Image source={require('../assets/arrow.png')} style={styles.headerIcon} />
@@ -53,7 +57,6 @@ const Settings = ({ navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.logoContainer}>
           <Image source={require('../assets/Logo.png')} style={styles.logo} />
-         
         </View>
         <TouchableOpacity style={styles.rateButton} onPress={() => { setRating(0); setRatingModalVisible(true); }}>
           <Text style={styles.rateButtonText}>Rate us!</Text>
@@ -118,14 +121,14 @@ const Settings = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
+    // Можно удалить backgroundColor, если оно не требуется при наличии фонового изображения
   },
   headerRow: {
     flexDirection: 'row',
@@ -138,7 +141,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   headerTitle: {
-   
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -167,13 +169,6 @@ const styles = StyleSheet.create({
     width: width * 0.5,
     height: width * 0.5,
     resizeMode: 'contain',
-  },
-  rotatedImage: {
-    width: width * 0.4,
-    height: width * 0.1,
-    resizeMode: 'contain',
-    transform: [{ rotate: '15deg' }],
-    marginTop: 8,
   },
   rateButton: {
     width: '90%',

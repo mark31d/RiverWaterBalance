@@ -10,6 +10,7 @@ import {
   Alert,
   Modal,
   TextInput,
+  ImageBackground,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ProfileContext } from '../Components/ProfileContext';
@@ -47,91 +48,108 @@ export default function Profile() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <Text style={styles.headerTitle}>Profile</Text>
-        <TouchableOpacity style={styles.headerIconWrapper} onPress={handleEditProfile}>
-          <Image source={require('../assets/pencil.png')} style={styles.headerIcon} />
-        </TouchableOpacity>
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <Text style={styles.headerTitle}>Profile</Text>
+          <TouchableOpacity style={styles.headerIconWrapper} onPress={handleEditProfile}>
+            <Image source={require('../assets/pencil.png')} style={styles.headerIcon} />
+          </TouchableOpacity>
+        </View>
+        <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+          <View style={styles.topSection}>
+            <TouchableOpacity onPress={handleSelectImage} style={styles.imageWrapper}>
+              {profile.profileImage ? (
+                <Image source={{ uri: profile.profileImage }} style={styles.profileImage} />
+              ) : (
+                <Image source={require('../assets/Profile.png')} style={styles.profileImage} />
+              )}
+            </TouchableOpacity>
+            <Text style={styles.userName}>{profile.name} {profile.surname}</Text>
+            <Text style={styles.birthDate}>{profile.birthDate}</Text>
+            <Text style={styles.goalText}>Your goal is the amount of water per day</Text>
+            <View style={styles.goalContainer}>
+              <Text style={styles.goalNumber}>{profile.recommended}</Text>
+              <Text style={styles.goalUnit}>(ml)</Text>
+              <TouchableOpacity onPress={() => {
+                setRecommendedInput(String(profile.recommended));
+                setEditRecommendedModalVisible(true);
+              }}>
+                <Image source={require('../assets/pencil.png')} style={styles.pencilIcon} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.menuSection}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
+              <Text style={styles.menuText}>Settings</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() =>
+                Alert.alert(
+                  'Developer Website',
+                  'This feature will be available in future versions.'
+                )
+              }
+            >
+              <Text style={styles.menuText}>Developer Website</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() =>                Alert.alert('Privacy Policy', 'This feature will be available in future versions.')
+              }
+            >
+              <Text style={styles.menuText}>Privacy Policy</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() =>
+                Alert.alert('Terms of Use', 'This feature will be available in future versions.')
+              }
+            >
+              <Text style={styles.menuText}>Terms of Use</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={editRecommendedModalVisible}
+          onRequestClose={() => setEditRecommendedModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Edit Water per Day</Text>
+              <TextInput
+                style={styles.inputModal}
+                value={recommendedInput}
+                onChangeText={setRecommendedInput}
+                keyboardType="numeric"
+                placeholder="Enter new value"
+              />
+              <TouchableOpacity style={styles.modalButton} onPress={saveRecommended}>
+                <Text style={styles.modalButtonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-        <View style={styles.topSection}>
-          <TouchableOpacity onPress={handleSelectImage} style={styles.imageWrapper}>
-            {profile.profileImage ? (
-              <Image source={{ uri: profile.profileImage }} style={styles.profileImage} />
-            ) : (
-              <Image source={require('../assets/Profile.png')} style={styles.profileImage} />
-            )}
-          </TouchableOpacity>
-          <Text style={styles.userName}>{profile.name} {profile.surname}</Text>
-          <Text style={styles.birthDate}>{profile.birthDate}</Text>
-          <Text style={styles.goalText}>Your goal is the amount of water per day</Text>
-          <View style={styles.goalContainer}>
-            <Text style={styles.goalNumber}>{profile.recommended}</Text>
-            <Text style={styles.goalUnit}>(ml)</Text>
-            <TouchableOpacity onPress={() => {
-              setRecommendedInput(String(profile.recommended));
-              setEditRecommendedModalVisible(true);
-            }}>
-                
-              <Image source={require('../assets/pencil.png')} style={styles.pencilIcon} />
-            </TouchableOpacity>
-            
-          </View>
-        </View>
-        <View style={styles.menuSection}>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => navigation.navigate('Settings')}
-          >
-            <Text style={styles.menuText}>Settings</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() =>
-            Alert.alert('Developer Website', 'This feature will be available in future versions.')
-          }>
-            <Text style={styles.menuText}>Developer Website</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() =>
-            Alert.alert('Privacy Policy', 'This feature will be available in future versions.')
-          }>
-            <Text style={styles.menuText}>Privacy Policy</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() =>
-            Alert.alert('Terms of Use', 'This feature will be available in future versions.')          }>
-            <Text style={styles.menuText}>Terms of Use</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={editRecommendedModalVisible}
-        onRequestClose={() => setEditRecommendedModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Edit Water per Day</Text>
-            <TextInput
-              style={styles.inputModal}
-              value={recommendedInput}
-              onChangeText={setRecommendedInput}
-              keyboardType="numeric"
-              placeholder="Enter new value"
-            />
-            <TouchableOpacity style={styles.modalButton} onPress={saveRecommended}>
-              <Text style={styles.modalButtonText}>Save</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
   },
   headerRow: {
     flexDirection: 'row',
@@ -264,10 +282,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
-  },
-  modalButtonText: {
+  },  modalButtonText: {
     color: '#FFF',
     fontSize: 16,
   },
 });
-

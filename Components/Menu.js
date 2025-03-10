@@ -7,6 +7,7 @@ import {
   Dimensions,
   Animated,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import Svg, { Circle, Path, Defs, ClipPath, Rect } from 'react-native-svg';
 import { useIsFocused } from '@react-navigation/native';
@@ -18,8 +19,6 @@ const AnimatedRect = Animated.createAnimatedComponent(Rect);
 export default function Menu({ navigation }) {
   const { profile, updateProfile } = useContext(ProfileContext);
   const isFocused = useIsFocused();
-
-  // Извлекаем данные из профиля
   const dailyIntake = profile.dailyIntake || 0;
   const recommendedIntake = profile.recommended || 2500;
 
@@ -42,8 +41,8 @@ export default function Menu({ navigation }) {
   const rawProgress = dailyIntake / recommendedIntake;
   const progress = rawProgress > 1 ? 1 : rawProgress < 0 ? 0 : rawProgress;
   const strokeDashoffset = circumference - circumference * progress;
-
   const fillAnim = useRef(new Animated.Value(progress)).current;
+
   useEffect(() => {
     Animated.timing(fillAnim, {
       toValue: progress,
@@ -62,94 +61,80 @@ export default function Menu({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Home</Text>
-
-      <View style={styles.topCard}>
-        <Text style={styles.reminderText}>
-          Stay Hydrated! Remember to drink water regularly
-        </Text>
-
-        <View style={styles.circleWrapper}>
-          <Svg width={180} height={180}>
-            <Circle
-              cx="90"
-              cy="90"
-              r={radius}
-              stroke="#E0E0E0"
-              strokeWidth={20}
-              fill="none"
-            />
-            <Circle
-              cx="90"
-              cy="90"
-              r={radius}
-              stroke="#007AFF"
-              strokeWidth={20}
-              fill="none"
-              strokeDasharray={circumference}
-              strokeDashoffset={strokeDashoffset}
-              strokeLinecap="round"
-            />
-          </Svg>
-
-          <View style={styles.dropContainer}>
-            <Svg width={80} height={100}>
-              <Defs>
-                <ClipPath id="dropClip">
-                  <Path
-                    d="M40,0 C53,22 80,45 80,70 C80,90 64,100 40,100 C16,100 0,90 0,70 C0,45 27,22 40,0 Z"
-                    fill="white"
-                  />
-                </ClipPath>
-              </Defs>
-
-              <Path
-                d="M40,0 C53,22 80,45 80,70 C80,90 64,100 40,100 C16,100 0,90 0,70 C0,45 27,22 40,0 Z"
-                fill="#E0E0E0"
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <Text style={styles.header}>Home</Text>
+        <View style={styles.topCard}>
+          <Text style={styles.reminderText}>Stay Hydrated! Remember to drink water regularly</Text>
+          <View style={styles.circleWrapper}>
+            <Svg width={180} height={180}>
+              <Circle cx="90" cy="90" r={radius} stroke="#E0E0E0" strokeWidth={20} fill="none" />
+              <Circle
+                cx="90"
+                cy="90"
+                r={radius}
+                stroke="#007AFF"
+                strokeWidth={20}
+                fill="none"
+                strokeDasharray={circumference}
+                strokeDashoffset={strokeDashoffset}
+                strokeLinecap="round"
               />
-
-              <AnimatedRect
-                x="0"
-                y={yRect}
-                width="80"
-                height={heightRect}
-                fill="#007AFF"
-                clipPath="url(#dropClip)"
-                clipRule="evenodd"
-              />
-            </Svg><View style={styles.dropTextWrapper}>
-              <Text style={styles.dropMainNumber}>{dailyIntake}</Text>
-              <Text style={styles.dropSubNumber}>/{recommendedIntake} ml</Text>
+            </Svg>
+            <View style={styles.dropContainer}>
+              <Svg width={80} height={100}>
+                <Defs>
+                  <ClipPath id="dropClip">
+                    <Path d="M40,0 C53,22 80,45 80,70 C80,90 64,100 40,100 C16,100 0,90 0,70 C0,45 27,22 40,0 Z" fill="white" />
+                  </ClipPath>
+                </Defs>
+                <Path d="M40,0 C53,22 80,45 80,70 C80,90 64,100 40,100 C16,100 0,90 0,70 C0,45 27,22 40,0 Z" fill="#E0E0E0" />
+                <AnimatedRect
+                  x="0"
+                  y={yRect}
+                  width="80"
+                  height={heightRect}
+                  fill="#007AFF"
+                  clipPath="url(#dropClip)"
+                  clipRule="evenodd"
+                />
+              </Svg>
+              <View style={styles.dropTextWrapper}>
+                <Text style={styles.dropMainNumber}>{dailyIntake}</Text>
+                <Text style={styles.dropSubNumber}>/{recommendedIntake} ml</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>      
-      <View style={styles.bottomRow}>
-        <View style={styles.bottomCard}>
-          <Text style={styles.intakeLabel}>Your Daily Water Intake</Text>
-          <Text style={styles.intakeValue}>{dailyIntake} ml</Text>
+        <View style={styles.bottomRow}>
+          <View style={styles.bottomCard}>
+            <Text style={styles.intakeLabel}>Your Daily Water Intake</Text>
+            <Text style={styles.intakeValue}>{dailyIntake} ml</Text>
+          </View>          <View style={styles.bottomCard}>
+            <Text style={styles.intakeLabel}>Recommended Water Intake</Text>
+            <Text style={styles.intakeValue}>{recommendedIntake} ml</Text>
+          </View>
         </View>
-        <View style={styles.bottomCard}>
-          <Text style={styles.intakeLabel}>Recommended Water Intake</Text>
-          <Text style={styles.intakeValue}>{recommendedIntake} ml</Text>
-        </View>
+        <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate('AddWater')}>
+          <Text style={styles.addButtonText}>Add Water</Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.addButton}
-        onPress={() => navigation.navigate('AddWater')}
-      >
-        <Text style={styles.addButtonText}>Add Water</Text>
-      </TouchableOpacity>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
     paddingTop: 50,
     alignItems: 'center',
   },

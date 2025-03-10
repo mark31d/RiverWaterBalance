@@ -9,7 +9,8 @@ import {
   Alert,
   Linking,
   Share,
-  SafeAreaView
+  SafeAreaView,
+  ImageBackground,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
@@ -89,75 +90,85 @@ export default function MapScreen() {
       longitudeDelta: prev.longitudeDelta / 0.8,
     }));
   };  return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Map</Text>
-      </View>
-      <View style={styles.mapContainer}>
-        <MapView style={styles.map} region={region} onRegionChange={setRegion}>
-          {springs.map((spring, index) => (
-            <Marker
-              key={index}
-              coordinate={spring.coordinate}
-              onPress={() => setSelectedSpring(spring)}
-            >
-              <View style={styles.customMarker}>
-                <Image
-                  source={require('../assets/water.png')}
-                  style={styles.markerImage}
-                />
-              </View>
-            </Marker>
-          ))}
-        </MapView>
-        <View style={styles.zoomContainer}>
-          <TouchableOpacity onPress={handleZoomIn} style={styles.zoomButton}>
-            <Text style={styles.zoomText}>+</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleZoomOut} style={styles.zoomButton}>
-            <Text style={styles.zoomText}>-</Text>
-          </TouchableOpacity>
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Map</Text>
         </View>
-      </View>
-      {selectedSpring && (
-        <View style={styles.bottomCard}>
-          <TouchableOpacity style={styles.closeButton} onPress={handleCloseCard}>
-            <Text style={styles.closeButtonText}>×</Text>
-          </TouchableOpacity>
-          <Text style={styles.bottomTitle}>{selectedSpring.name}</Text>
-          <Text style={styles.bottomSubtitle}>City: {selectedSpring.city}</Text>
-          <View style={styles.buttonRow}>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleDirections(selectedSpring)}
-            >
-              <Text style={styles.actionButtonText}>Directions</Text>
+        <View style={styles.mapContainer}>
+          <MapView style={styles.map} region={region} onRegionChange={setRegion}>
+            {springs.map((spring, index) => (
+              <Marker
+                key={index}
+                coordinate={spring.coordinate}
+                onPress={() => setSelectedSpring(spring)}
+              >
+                <View style={styles.customMarker}>
+                  <Image
+                    source={require('../assets/water.png')}
+                    style={styles.markerImage}
+                  />
+                </View>
+              </Marker>
+            ))}
+          </MapView>
+          <View style={styles.zoomContainer}>
+            <TouchableOpacity onPress={handleZoomIn} style={styles.zoomButton}>
+              <Text style={styles.zoomText}>+</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleDownloadImage(selectedSpring.image)}
-            >
-              <Text style={styles.actionButtonText}>Download</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.actionButton}
-              onPress={() => handleMore(selectedSpring)}
-            >
-              <Text style={styles.actionButtonText}>More</Text>
+            <TouchableOpacity onPress={handleZoomOut} style={styles.zoomButton}>
+              <Text style={styles.zoomText}>-</Text>
             </TouchableOpacity>
           </View>
-          <Image source={selectedSpring.image} style={styles.bottomImage} />
         </View>
-      )}
-    </SafeAreaView>
+        {selectedSpring && (
+          <View style={styles.bottomCard}>
+            <TouchableOpacity style={styles.closeButton} onPress={handleCloseCard}>
+              <Text style={styles.closeButtonText}>×</Text>
+            </TouchableOpacity>
+            <Text style={styles.bottomTitle}>{selectedSpring.name}</Text>
+            <Text style={styles.bottomSubtitle}>City: {selectedSpring.city}</Text>
+            <View style={styles.buttonRow}>
+              <TouchableOpacity
+                style={styles.actionButton}
+                onPress={() => handleDirections(selectedSpring)}
+              >
+                <Text style={styles.actionButtonText}>Directions</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.actionButton}
+                onPress={() => handleDownloadImage(selectedSpring.image)}
+              >
+                <Text style={styles.actionButtonText}>Download</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.actionButton}
+                onPress={() => handleMore(selectedSpring)}
+              >
+                <Text style={styles.actionButtonText}>More</Text>
+              </TouchableOpacity>
+            </View>
+            <Image source={selectedSpring.image} style={styles.bottomImage} />
+          </View>
+        )}
+      </SafeAreaView>
+    </ImageBackground>
   );
 }const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
   },
   header: {
-    backgroundColor: '#F9F9F9',
+  
     padding: 15,
     marginBottom: -20,
     elevation: 3,

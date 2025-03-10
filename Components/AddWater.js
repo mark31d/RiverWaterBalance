@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  ImageBackground,
 } from 'react-native';
-import { ProfileContext } from '../Components/ProfileContext'; // проверьте корректность пути
+import { ProfileContext } from '../Components/ProfileContext';
 
 export default function AddWater({ navigation }) {
   const [amount, setAmount] = useState('');
@@ -24,69 +25,79 @@ export default function AddWater({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Шапка с иконками */}
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../assets/arrow.png')}
-            style={styles.headerIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={require('../assets/arrow.png')}
+              style={styles.headerIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Add Water</Text>
+          <Text style={styles.headerTitle}>Add Water</Text>
 
-        <TouchableOpacity onPress={handleSave}>
-          <Image
-            source={require('../assets/accept.png')}
-            style={styles.headerIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
-
-      {/* Блок с информацией о воде */}
-      <View style={styles.intakeRow}>
-        <View style={styles.intakeBox}>
-        <Text style={styles.intakeLabel}>Your Daily Water Intake</Text>
-        <Text style={styles.intakeValue}>{profile.dailyIntake} ml</Text>
+          <TouchableOpacity onPress={handleSave}>
+            <Image
+              source={require('../assets/accept.png')}
+              style={styles.headerIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
         </View>
-        <View style={styles.intakeBox}>
-          <Text style={styles.intakeLabel}>Recommended Water Intake</Text>
-          <Text style={styles.intakeValue}>{profile.recommended} ml</Text>
+
+        <View style={styles.intakeRow}>
+          <View style={styles.intakeBox}>
+            <Text style={styles.intakeLabel}>Your Daily Water Intake</Text>
+            <Text style={styles.intakeValue}>{profile.dailyIntake} ml</Text>
+          </View>
+
+          <View style={styles.intakeBox}>
+            <Text style={styles.intakeLabel}>Recommended Water Intake</Text>
+            <Text style={styles.intakeValue}>{profile.recommended} ml</Text>
+          </View>
+        </View>
+
+        <View style={{ alignItems: 'center', marginTop: 20 }}>
+          <Image
+            source={require('../assets/Logo.png')}
+            style={{
+              width: 150,
+              height: 150,
+              transform: [{ rotate: '15deg' }],
+            }}
+          />
+        </View>
+
+        <View style={styles.centerContent}>
+          <Text style={styles.label}>Amount of water consumed (ml)</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            placeholder="Enter amount.."
+            value={amount}
+            onChangeText={setAmount}
+          />
+          <TouchableOpacity style={styles.bigButton} onPress={handleSave}>
+            <Text style={styles.bigButtonText}>Add</Text>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <View style={{ alignItems: 'center', marginTop: 20 }}>
-        <Image
-          source={require('../assets/Logo.png')}
-          style={{
-            width: 150,
-            height: 150,
-            transform: [{ rotate: '15deg' }],
-          }}
-        />
-      </View>{/* Поле для ввода количества воды и кнопка */}
-      <View style={styles.centerContent}>
-        <Text style={styles.label}>Amount of water consumed (ml)</Text>
-        <TextInput
-          style={styles.input}
-          keyboardType="numeric"
-          placeholder="Enter amount.."
-          value={amount}
-          onChangeText={setAmount}
-        />
-        <TouchableOpacity style={styles.bigButton} onPress={handleSave}>
-          <Text style={styles.bigButtonText}>Add</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </ImageBackground>
   );
 }const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
-    backgroundColor: '#F9F9F9',
     paddingTop: 50,
     paddingHorizontal: 20,
   },

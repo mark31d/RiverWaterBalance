@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import {
   View,
-  Text,
-  Image,
-  TouchableOpacity,
   StyleSheet,
-  ScrollView,
+  Image,
   Dimensions,
+  Text,
+  TouchableOpacity,
+  ScrollView,
   SafeAreaView,
+  ImageBackground,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
@@ -61,70 +62,97 @@ export function EventsList() {
   };
 
   return (
-    <SafeAreaView style={styles.listContainer}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Events</Text>
-        </View>
-        {events.map((ev) => (
-          <TouchableOpacity
-            key={ev.id}
-            style={styles.eventCard}
-            onPress={() => goToEventDetails(ev)}
-          >
-            <Image source={ev.image} style={styles.cardImage} />
-            <Text style={styles.cardTitle}>{ev.name}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.listContainer}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 20 }}>
+          <View style={styles.header}>
+            <Text style={styles.headerTitle}>Events</Text>
+          </View>
+          {events.map((ev) => (
+            <TouchableOpacity
+              key={ev.id}
+              style={styles.eventCard}
+              onPress={() => goToEventDetails(ev)}
+            >
+              <Image source={ev.image} style={styles.cardImage} />
+              <Text style={styles.cardTitle}>{ev.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 export function EventDetails() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { eventItem } = route.params;
-
-  return (
-    <SafeAreaView style={styles.detailsSafeArea}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
-        <TouchableOpacity style={styles.backButtonOutside} onPress={() => navigation.goBack()}>
-          <Image source={require('../assets/arrow.png')} style={styles.backIcon} />
-        </TouchableOpacity>
-        <View style={styles.imageWrapper}>
-          <Image source={eventItem.image} style={styles.detailsImage} />
-        </View>
-        <View style={styles.infoContainer}>
-          <Text style={styles.detailsTitle}>{eventItem.name}</Text>
-          <View style={styles.infoRow}>
-            <Image source={require('../assets/calendar.png')} style={styles.infoIcon} />
-            <Text style={styles.infoText}>{eventItem.date}</Text>
+  const { eventItem } = route.params;return (
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.detailsSafeArea}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+          <TouchableOpacity
+            style={styles.backButtonOutside}
+            onPress={() => navigation.goBack()}
+          >
+            <Image
+              source={require('../assets/arrow.png')}
+              style={styles.backIcon}
+            />
+          </TouchableOpacity>
+          <View style={styles.imageWrapper}>
+            <Image source={eventItem.image} style={styles.detailsImage} />
           </View>
-          <View style={styles.infoRow}>
-            <Image source={require('../assets/map.png')} style={styles.infoIcon} />
-            <Text style={styles.infoText}>{eventItem.address}</Text>
+          <View style={styles.infoContainer}>
+            <Text style={styles.detailsTitle}>{eventItem.name}</Text>
+            <View style={styles.infoRow}>
+              <Image
+                source={require('../assets/calendar.png')}
+                style={styles.infoIcon}
+              />
+              <Text style={styles.infoText}>{eventItem.date}</Text>
+            </View>
+            <View style={styles.infoRow}>
+              <Image
+                source={require('../assets/map.png')}
+                style={styles.infoIcon}
+              />
+              <Text style={styles.infoText}>{eventItem.address}</Text>
+            </View>
+            <Text style={styles.descriptionText}>{eventItem.description}</Text>
           </View>
-          <Text style={styles.descriptionText}>{eventItem.description}</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 export default {
   EventsList,
   EventDetails,
-};const styles = StyleSheet.create({
+};
+
+const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   listContainer: {
     flex: 1,
-    backgroundColor: '#EDEDED',
+    // backgroundColor: '#EDEDED',
   },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-   
-  
   },
   headerTitle: {
     fontSize: 22,
@@ -156,7 +184,7 @@ export default {
   },
   detailsSafeArea: {
     flex: 1,
-    backgroundColor: '#EDEDED',
+    // backgroundColor: '#EDEDED',
   },
   imageWrapper: {
     width: '100%',
@@ -164,7 +192,6 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    
   },
   detailsImage: {
     width: 350,
@@ -174,7 +201,7 @@ export default {
   },
   backButtonOutside: {
     marginTop: 10,
-    marginBottom:10,
+    marginBottom: 10,
     marginLeft: 20,
     width: 40,
     height: 40,
@@ -183,7 +210,6 @@ export default {
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'flex-start',
-    
   },
   backIcon: {
     width: 20,

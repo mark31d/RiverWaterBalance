@@ -8,6 +8,7 @@ import {
   ScrollView,
   Image,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DropDown from '../Components/DropDown';
@@ -26,13 +27,7 @@ export default function EditProfile({ navigation }) {
   const [profileImage, setProfileImage] = useState(profile.profileImage || null);
 
   const climateOptions = ['Hot and humid', 'Mild', 'Cold'];
-  const activityOptions = [
-    'Sedentary',
-    'Lightly Active',
-    'Moderately',
-    'Very Active',
-    'Extra Active',
-  ];
+  const activityOptions = ['Sedentary', 'Lightly Active', 'Moderately', 'Very Active', 'Extra Active'];
 
   const handleSelectImage = () => {
     launchImageLibrary({ mediaType: 'photo' }, (response) => {
@@ -61,105 +56,129 @@ export default function EditProfile({ navigation }) {
       profileImage,
     });
     navigation.goBack();
-  };  return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../assets/arrow.png')}
-            style={styles.headerIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Edit Profile</Text>
-        <TouchableOpacity onPress={handleSave}>
-          <Image
-            source={require('../assets/accept.png')}
-            style={styles.headerIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      </View>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.imageWrapper}>
-          <TouchableOpacity onPress={handleSelectImage}>
-            {profileImage ? (
-              <Image source={{ uri: profileImage }} style={styles.profileImage} />
-            ) : (
-              <View style={styles.placeholder}>
-                <Image
-                  source={require('../assets/Profile.png')}
-                  style={styles.placeholderIcon}
-                />
-              </View>
-            )}
+  };
+
+  return (
+    <ImageBackground
+      source={require('../assets/bg.png')}
+      style={styles.bgImage}
+      resizeMode="cover"
+    >
+      <View style={styles.container}>
+        <View style={styles.headerRow}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={require('../assets/arrow.png')}
+              style={styles.headerIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Edit Profile</Text>
+          <TouchableOpacity onPress={handleSave}>
+            <Image
+              source={require('../assets/accept.png')}
+              style={styles.headerIcon}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
         </View>
-        <Text style={styles.label}>Name</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the text.."
-          value={name}
-          onChangeText={setName}
-        />
-        <Text style={styles.label}>Surname</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the text.."
-          value={surname}
-          onChangeText={setSurname}
-        />
-        <Text style={styles.label}>Date of birth</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the text.."
-          value={birthDate}
-          onChangeText={setBirthDate}
-        />
-        <Text style={styles.label}>Gender</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the text.."
-          value={gender}
-          onChangeText={setGender}
-        />
-        <Text style={styles.label}>Height (cm)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the text.."
-          keyboardType="numeric"
-          value={height}
-          onChangeText={setHeight}
-        />
-        <Text style={styles.label}>Weight (kg)</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter the text.."
-          keyboardType="numeric"
-          value={weight}
-          onChangeText={setWeight}
-        />
-        <Text style={styles.label}>Select your climate</Text>
-        <DropDown
-          options={climateOptions}
-          selectedValue={climate}
-          onSelect={setClimate}
-        />
-        <Text style={styles.label}>Select your activity level</Text>
-        <DropDown
-          options={activityOptions}
-          selectedValue={activity}
-          onSelect={setActivity}
-        />
-        <View style={{ height: 40 }} />
-      </ScrollView>
-    </View>
+
+        <ScrollView style={{ flex: 1 }}>
+          <View style={styles.imageWrapper}>
+            <TouchableOpacity onPress={handleSelectImage}>
+              {profileImage ? (
+                <Image source={{ uri: profileImage }} style={styles.profileImage} />
+              ) : (
+                <View style={styles.placeholder}>
+                  <Image
+                    source={require('../assets/Profile.png')}
+                    style={styles.placeholderIcon}
+                  />
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.label}>Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the text.."
+            value={name}
+            onChangeText={setName}
+          />
+
+          <Text style={styles.label}>Surname</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the text.."
+            value={surname}
+            onChangeText={setSurname}
+          />          <Text style={styles.label}>Date of birth</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the text.."
+            value={birthDate}
+            onChangeText={setBirthDate}
+          />
+
+          <Text style={styles.label}>Gender</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the text.."
+            value={gender}
+            onChangeText={setGender}
+          />
+
+          <Text style={styles.label}>Height (cm)</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the text.."
+            keyboardType="numeric"
+            value={height}
+            onChangeText={setHeight}
+          />
+
+          <Text style={styles.label}>Weight (kg)</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter the text.."
+            keyboardType="numeric"
+            value={weight}
+            onChangeText={setWeight}
+          />
+
+          <Text style={styles.label}>Select your climate</Text>
+          <DropDown
+            options={climateOptions}
+            selectedValue={climate}
+            onSelect={setClimate}
+          />
+
+          <Text style={styles.label}>Select your activity level</Text>
+          <DropDown
+            options={activityOptions}
+            selectedValue={activity}
+            onSelect={setActivity}
+          />
+
+          <View style={{ height: 40 }}>
+            <Text></Text>
+          </View>
+        </ScrollView>
+      </View>
+    </ImageBackground>
   );
-}const styles = StyleSheet.create({
+}
+
+const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+  },
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: '#F9F9F9',
     paddingHorizontal: 20,
   },
   headerRow: {
