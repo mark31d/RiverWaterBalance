@@ -109,9 +109,7 @@ const Settings = ({ navigation }) => {
             <Text style={styles.modalTitle}>Rate Us</Text>            <View style={styles.starsContainerModal}>
               {[1, 2, 3, 4, 5].map((star) => (
                 <TouchableOpacity key={star} onPress={() => setRating(star)}>
-                  <Text style={styles.starModal}>
-                    {star <= rating ? '★' : '☆'}
-                  </Text>
+                  <Text style={styles.starModal}>{star <= rating ? '★' : '☆'}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -128,7 +126,7 @@ const Settings = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // Можно удалить backgroundColor, если оно не требуется при наличии фонового изображения
+    
   },
   headerRow: {
     flexDirection: 'row',
